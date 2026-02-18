@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.75rem;
+        --background: 0.99 0.005 35;
+        --foreground: 0.25 0.015 35;
+        --card: 1 0 0;
+        --card-foreground: 0.25 0.015 35;
+        --popover: 1 0 0;
+        --popover-foreground: 0.25 0.015 35;
+        --primary: 0.62 0.18 25;
+        --primary-foreground: 0.99 0.005 35;
+        --secondary: 0.96 0.01 35;
+        --secondary-foreground: 0.25 0.015 35;
+        --muted: 0.96 0.01 35;
+        --muted-foreground: 0.55 0.01 35;
+        --accent: 0.96 0.01 35;
+        --accent-foreground: 0.25 0.015 35;
+        --destructive: 0.58 0.22 15;
+        --destructive-foreground: 0.99 0.005 35;
+        --border: 0.92 0.005 35;
+        --input: 0.92 0.005 35;
+        --ring: 0.62 0.18 25;
+        --chart-1: 0.62 0.18 25;
+        --chart-2: 0.68 0.15 45;
+        --chart-3: 0.55 0.12 65;
+        --chart-4: 0.72 0.14 85;
+        --chart-5: 0.65 0.16 105;
+    }
+
+    .dark {
+        --background: 0.15 0.01 35;
+        --foreground: 0.95 0.005 35;
+        --card: 0.20 0.012 35;
+        --card-foreground: 0.95 0.005 35;
+        --popover: 0.18 0.012 35;
+        --popover-foreground: 0.95 0.005 35;
+        --primary: 0.68 0.16 25;
+        --primary-foreground: 0.15 0.01 35;
+        --secondary: 0.25 0.015 35;
+        --secondary-foreground: 0.95 0.005 35;
+        --muted: 0.25 0.015 35;
+        --muted-foreground: 0.65 0.01 35;
+        --accent: 0.30 0.018 35;
+        --accent-foreground: 0.95 0.005 35;
+        --destructive: 0.62 0.20 15;
+        --destructive-foreground: 0.95 0.005 35;
+        --border: 0.30 0.015 35;
+        --input: 0.30 0.015 35;
+        --ring: 0.68 0.16 25;
+        --chart-1: 0.68 0.16 25;
+        --chart-2: 0.72 0.14 45;
+        --chart-3: 0.58 0.11 65;
+        --chart-4: 0.75 0.13 85;
+        --chart-5: 0.68 0.15 105;
+    }
+
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
+
+@layer base {
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-semibold tracking-tight;
+    }
+    
+    h1 {
+        @apply text-3xl;
+    }
+    
+    h2 {
+        @apply text-2xl;
+    }
+    
+    h3 {
+        @apply text-xl;
+    }
+}

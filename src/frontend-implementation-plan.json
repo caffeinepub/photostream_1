@@ -1,0 +1,313 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "PhotoStream — Instagram-like Social Media App (Frontend Plan)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity sign-in/out UX, keep app usable read-only when signed out, and expose the current principal to the UI.",
+      "acceptanceCriteria": [
+        "Unauthenticated visitors can view a public landing or read-only feed (if desired), but are prompted to sign in for actions that require identity (posting, liking, commenting, following).",
+        "Authenticated users can sign out and the UI updates accordingly.",
+        "User identity is derived from Internet Identity principal (no third-party auth providers)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the app shell with top navigation (logo, feed filter, search link, profile link) and route wiring; use the existing InternetIdentityProvider context to conditionally render sign-in/sign-out and to gate identity-required actions behind a prompt instead of hard-blocking public browsing."
+        },
+        {
+          "path": "frontend/src/components/auth/AuthControls.tsx",
+          "operation": "create",
+          "description": "Add a small auth control component that uses the existing useInternetIdentity hook to render Sign in / Sign out buttons and display the current principal when authenticated."
+        },
+        {
+          "path": "frontend/src/components/auth/RequireIdentityAction.tsx",
+          "operation": "create",
+          "description": "Add a reusable wrapper/helper to prompt users to sign in when they attempt identity-required actions (post, like, comment, follow), while still allowing read-only viewing when signed out."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement profile screens and profile editing UI using backend profile capabilities, including default avatar handling and profile counts display.",
+      "acceptanceCriteria": [
+        "On first sign-in, a minimal profile is created automatically (or via a one-time onboarding screen).",
+        "Users can edit display name and bio and see changes reflected immediately after save.",
+        "Users can view another user's profile page showing avatar, display name, bio, and counts (posts, followers, following)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/backend.ts",
+          "operation": "create",
+          "description": "Create a typed backend client wrapper (calling the generated backend interface methods) and helper utilities for converting values for display; keep all backend calls centralized for profile, posts, likes, comments, follow, search."
+        },
+        {
+          "path": "frontend/src/pages/ProfilePage.tsx",
+          "operation": "create",
+          "description": "Create the profile page UI for both self and other users: avatar (fallback to generated default), display name, bio, and counts (posts, followers, following) derived from fetched profile/posts data; include follow/unfollow controls only when viewing another user."
+        },
+        {
+          "path": "frontend/src/pages/EditProfilePage.tsx",
+          "operation": "create",
+          "description": "Create profile edit UI for display name, bio, and optional avatar selection. Use the blob-storage ExternalBlob representation for avatar content references; Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useProfile.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for getOwnProfile/getProfile and createProfile mutation, including a first-sign-in flow that ensures a minimal profile exists (either auto-create after login or route to a one-time edit screen)."
+        },
+        {
+          "path": "frontend/src/components/profile/Avatar.tsx",
+          "operation": "create",
+          "description": "Create an Avatar component that renders profile avatars via ExternalBlob direct URL when present, otherwise uses the generated default avatar asset at frontend/public/assets/generated/default-avatar.dim_256x256.png. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire routes/navigation for viewing profiles by principal (e.g., /u/:principal) and editing the current user profile (e.g., /me/edit) so these screens are reachable from the app shell."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement post composer UI with image selection/validation, caption input, upload progress, and publishing to the backend; ensure posts render with image references.",
+      "acceptanceCriteria": [
+        "Authenticated users can create a new post by uploading an image and optionally adding a caption.",
+        "After publishing, the post appears in the feed and on the author’s profile post grid/list.",
+        "Post data includes: postId, author principal, caption, createdAt, and image content reference.",
+        "Define and enforce reasonable image size/type constraints and show a clear validation error in the UI when violated."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ComposePostPage.tsx",
+          "operation": "create",
+          "description": "Create a post composer screen for authenticated users: image file picker, caption, validation errors, upload/progress display, and publish action. Use blob-storage ExternalBlob (direct URL + upload progress) for image content reference creation; Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/usePosts.ts",
+          "operation": "create",
+          "description": "Add React Query hooks/mutations for createPost plus feed/profile post queries; ensure cache invalidation updates feed and profile posts immediately after publish."
+        },
+        {
+          "path": "frontend/src/lib/imageValidation.ts",
+          "operation": "create",
+          "description": "Implement client-side image validation rules (e.g., allowed MIME types like image/jpeg,image/png,image/webp and a reasonable max size) and provide user-friendly error messages for the composer UI."
+        },
+        {
+          "path": "frontend/src/components/posts/PostImage.tsx",
+          "operation": "create",
+          "description": "Render post images from the ExternalBlob direct URL to leverage streaming/caching. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire navigation to the composer screen (e.g., a 'New Post' action in the header) and ensure it is gated behind identity-required prompting while leaving read-only browsing accessible."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Build the mobile-first home feed UI with consistent post layout, loading/empty states, and incremental loading without duplicates.",
+      "acceptanceCriteria": [
+        "Feed renders a vertical list of posts with consistent spacing and responsive layout (mobile-first).",
+        "Feed loading states and empty states are implemented.",
+        "Pagination/infinite loading works without duplicating posts in the list."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/FeedPage.tsx",
+          "operation": "create",
+          "description": "Create the home feed page that lists posts (image, author, caption, time) in a vertical mobile-first layout with loading skeleton/spinner, error state, and empty state using the generated illustration at frontend/public/assets/generated/empty-feed.dim_1200x800.png."
+        },
+        {
+          "path": "frontend/src/components/posts/PostCard.tsx",
+          "operation": "create",
+          "description": "Create a reusable PostCard component that renders image, author link, caption, relative/absolute time, like/comment affordances, and consistent spacing for feed and profile views."
+        },
+        {
+          "path": "frontend/src/components/feed/IncrementalLoader.tsx",
+          "operation": "create",
+          "description": "Add a simple incremental loading mechanism (e.g., 'Load more' or infinite scroll sentinel) implemented on the frontend list while preventing duplicates by de-duping by postId."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Set FeedPage as the primary route and ensure navigation to other required screens (search, profile, composer) is available from the app shell."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement like/unlike and comment add/delete interactions in the UI with correct gating and immediate UI updates.",
+      "acceptanceCriteria": [
+        "Users can like and unlike a post; like count updates in the UI.",
+        "Users can add a comment to a post and see it appear under the post.",
+        "Users can delete their own comments; other users cannot delete comments they do not own.",
+        "Backend prevents duplicate likes per user per post."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useInteractions.ts",
+          "operation": "create",
+          "description": "Add React Query mutations for likePost/unlikePost, addComment, and deleteComment; update/invalidate cached PostView lists so like counts and comments update immediately after actions."
+        },
+        {
+          "path": "frontend/src/components/posts/LikeButton.tsx",
+          "operation": "create",
+          "description": "Create a like button component that reflects current like state for the signed-in principal, shows total like count, and prompts sign-in when unauthenticated."
+        },
+        {
+          "path": "frontend/src/components/comments/CommentsPanel.tsx",
+          "operation": "create",
+          "description": "Create a comments UI under each post: list comments, add comment input (gated by identity prompt), and show delete control only when the current principal matches comment author."
+        },
+        {
+          "path": "frontend/src/components/posts/PostCard.tsx",
+          "operation": "modify",
+          "description": "Integrate LikeButton and CommentsPanel into the PostCard layout, including loading/disabled states for mutations."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Implement follow/unfollow UI, show follower/following counts, and add a feed filter that switches between all posts and followed-only posts.",
+      "acceptanceCriteria": [
+        "On another user’s profile, a follow/unfollow button reflects current relationship state.",
+        "Follower and following counts update after follow/unfollow.",
+        "A 'Following' feed mode exists (or a clear filter/toggle) that shows posts from followed users."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useFollows.ts",
+          "operation": "create",
+          "description": "Add follow/unfollow React Query mutations and any needed derived UI state helpers; ensure profile-related queries are refreshed so counts and button state update after follow changes."
+        },
+        {
+          "path": "frontend/src/components/profile/FollowButton.tsx",
+          "operation": "create",
+          "description": "Create a FollowButton for other users’ profiles that prompts sign-in when unauthenticated and reflects follow/unfollow state based on current UI data and refreshed queries."
+        },
+        {
+          "path": "frontend/src/pages/FeedPage.tsx",
+          "operation": "modify",
+          "description": "Add a clear feed mode toggle (e.g., 'All' vs 'Following') and use it to call the backend feed function with followingOnly set appropriately; ensure incremental loading does not duplicate posts when toggling modes."
+        },
+        {
+          "path": "frontend/src/pages/ProfilePage.tsx",
+          "operation": "modify",
+          "description": "Wire FollowButton into other users’ profile header and refresh visible counts after follow/unfollow; ensure the profile page remains viewable read-only when signed out."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Add a discovery/search screen to find users by display name and navigate to their profiles, with loading and empty-result states.",
+      "acceptanceCriteria": [
+        "Users can search and see a list of matching profiles.",
+        "Selecting a result navigates to the selected user’s profile page.",
+        "Search has loading and empty-result states."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/SearchPage.tsx",
+          "operation": "create",
+          "description": "Create a search page with a search input and results list showing avatar + display name; implement loading, error, and empty-result states; navigate to the selected profile route on selection."
+        },
+        {
+          "path": "frontend/src/hooks/useSearch.ts",
+          "operation": "create",
+          "description": "Add a React Query hook for searchUsers with debouncing and request cancellation behavior appropriate for type-ahead search."
+        },
+        {
+          "path": "frontend/src/components/search/SearchResultRow.tsx",
+          "operation": "create",
+          "description": "Create a result row component that uses the Avatar component (default avatar fallback) and links to the profile page route."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register the SearchPage route and add navigation access to it from the app shell."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Define and apply a consistent visual theme (non-blue/purple primary palette) across the app shell and all screens.",
+      "acceptanceCriteria": [
+        "The UI uses a consistent design system (spacing, typography scale, button styles, card/post layout).",
+        "Theme is distinct and coherent, with accessible contrast for text and interactive elements.",
+        "The primary palette is not blue/purple unless explicitly requested later."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create global styles and CSS variables used by Tailwind/shadcn theming, selecting a primary palette that is not blue/purple (e.g., warm neutrals/greens/oranges) and ensuring accessible contrast; apply consistent typography and spacing defaults."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind theme tokens if needed to match the chosen palette and ensure consistent container/spacing; keep usage aligned with existing CSS variable-driven color setup."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a layout component to enforce consistent page padding, max width, header styling, and overall app structure across Feed, Profile, Composer, and Search screens."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap routed screens with AppLayout and ensure consistent UI elements (header, nav actions) match the design system across the app."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Wire generated static images (logo, default avatar, empty-state illustration) into the UI as frontend static assets.",
+      "acceptanceCriteria": [
+        "Generated images are placed under frontend/public/assets/generated and referenced by the UI.",
+        "Default avatar is used when a user has not set an avatar.",
+        "Empty-state illustration is shown when feed/search has no content."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/branding/Logo.tsx",
+          "operation": "create",
+          "description": "Create a Logo component that renders the generated wordmark from frontend/public/assets/generated/app-logo.dim_512x512.png and is used in the app header."
+        },
+        {
+          "path": "frontend/src/components/profile/Avatar.tsx",
+          "operation": "modify",
+          "description": "Ensure the Avatar component uses frontend/public/assets/generated/default-avatar.dim_256x256.png as the fallback when no avatar is set."
+        },
+        {
+          "path": "frontend/src/pages/FeedPage.tsx",
+          "operation": "modify",
+          "description": "Show the generated empty feed illustration frontend/public/assets/generated/empty-feed.dim_1200x800.png when the feed has no posts."
+        },
+        {
+          "path": "frontend/src/pages/SearchPage.tsx",
+          "operation": "modify",
+          "description": "Show the generated empty-state illustration frontend/public/assets/generated/empty-feed.dim_1200x800.png (or a suitable empty-state block using it) when search returns no results."
+        },
+        {
+          "path": "frontend/public/assets/generated/app-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated app logo asset at the required path so the UI can reference it as a static file."
+        },
+        {
+          "path": "frontend/public/assets/generated/default-avatar.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated default avatar asset at the required path so the UI can reference it as a static file."
+        },
+        {
+          "path": "frontend/public/assets/generated/empty-feed.dim_1200x800.png",
+          "operation": "create",
+          "description": "Add the generated empty-state illustration asset at the required path so the UI can reference it as a static file."
+        }
+      ]
+    }
+  ]
+}

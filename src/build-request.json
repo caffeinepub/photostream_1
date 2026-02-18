@@ -1,0 +1,203 @@
+{
+  "kind": "build_request",
+  "title": "Instagram-like Social Media App (Feed, Posts, Profiles, Follows)",
+  "projectName": "PhotoStream",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity authentication so users can sign in/out and the app can identify the current user principal.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Unauthenticated visitors can view a public landing or read-only feed (if desired), but are prompted to sign in for actions that require identity (posting, liking, commenting, following).",
+        "Authenticated users can sign out and the UI updates accordingly.",
+        "User identity is derived from Internet Identity principal (no third-party auth providers)."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a backend user profile model and APIs to create/read/update the current user's profile (display name, bio, avatar image) and to read other users' profiles.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On first sign-in, a minimal profile is created automatically (or via a one-time onboarding screen).",
+        "Users can edit display name and bio and see changes reflected immediately after save.",
+        "Users can view another user's profile page showing avatar, display name, bio, and counts (posts, followers, following)."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement photo post creation with image upload, caption, timestamp, and author; store posts in the Motoko backend and display them in the frontend.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Authenticated users can create a new post by uploading an image and optionally adding a caption.",
+        "After publishing, the post appears in the feed and on the author’s profile post grid/list.",
+        "Post data includes: postId, author principal, caption, createdAt, and image content reference.",
+        "Define and enforce reasonable image size/type constraints and show a clear validation error in the UI when violated."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build a home feed UI that lists posts (image, author, caption, time) and supports pagination or incremental loading.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Feed renders a vertical list of posts with consistent spacing and responsive layout (mobile-first).",
+        "Feed loading states and empty states are implemented.",
+        "Pagination/infinite loading works without duplicating posts in the list."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement social interactions: like/unlike posts and add/delete comments (by comment author).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can like and unlike a post; like count updates in the UI.",
+        "Users can add a comment to a post and see it appear under the post.",
+        "Users can delete their own comments; other users cannot delete comments they do not own.",
+        "Backend prevents duplicate likes per user per post."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement following: users can follow/unfollow other users; profile pages show follower/following counts; feed can be filtered to show posts from followed accounts.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On another user’s profile, a follow/unfollow button reflects current relationship state.",
+        "Follower and following counts update after follow/unfollow.",
+        "A 'Following' feed mode exists (or a clear filter/toggle) that shows posts from followed users."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Add basic discovery UI: a simple user search (by display name) and navigation to user profiles.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can search and see a list of matching profiles.",
+        "Selecting a result navigates to the selected user’s profile page.",
+        "Search has loading and empty-result states."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Create a coherent visual theme for the app (colors, typography, layout) and apply it consistently across feed, profile, post composer, and search screens (do not use blue/purple as primary palette).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The UI uses a consistent design system (spacing, typography scale, button styles, card/post layout).",
+        "Theme is distinct and coherent, with accessible contrast for text and interactive elements.",
+        "The primary palette is not blue/purple unless explicitly requested later."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Generate and include required static images (logo, default avatar, and an empty-state illustration) and render them from frontend static assets.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "create a instagram like app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images are placed under frontend/public/assets/generated and referenced by the UI.",
+        "Default avatar is used when a user has not set an avatar.",
+        "Empty-state illustration is shown when feed/search has no content."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (no additional backend services).",
+    "Do not modify files under frontend/src/components/ui or other immutable paths provided by the platform; compose them instead.",
+    "Use Internet Identity for authentication (no third-party auth providers).",
+    "Do not rely on external databases or external object storage/CDNs for user content."
+  ],
+  "nonGoals": [
+    "Video posts, Stories/Reels, live streaming",
+    "Direct messages / real-time chat",
+    "Push notifications or email/SMS notifications",
+    "Advanced content moderation, reporting, or admin dashboards",
+    "Algorithmic ranking beyond basic chronological or simple filters"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal modern wordmark logo on light background (app-logo.dim_512x512.png)",
+      "Neutral default user avatar icon illustration (default-avatar.dim_256x256.png)",
+      "Clean empty-state illustration (no posts yet) with abstract shapes (empty-feed.dim_1200x800.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

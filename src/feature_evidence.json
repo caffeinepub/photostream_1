@@ -1,0 +1,195 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-authentication-so-users-can-sign-in-out-and-the-app-can-identify-the-current-user-principal",
+      "featureTitle": "Implement Internet Identity authentication so users can sign in/out and the app can identify the current user principal.",
+      "files": [
+        "frontend/src/App.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-backend-user-profile-model-and-apis-to-create-read-update-the-current-user-s-profile-display-name-bio-avatar-image-and-to-read-other-users-profiles",
+      "featureTitle": "Create a backend user profile model and APIs to create/read/update the current user's profile (display name, bio, avatar image) and to read other users' profiles.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/profile/Avatar.tsx",
+        "frontend/src/pages/EditProfilePage.tsx",
+        "frontend/src/pages/ProfilePage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-photo-post-creation-with-image-upload-caption-timestamp-and-author-store-posts-in-the-motoko-backend-and-display-them-in-the-frontend",
+      "featureTitle": "Implement photo post creation with image upload, caption, timestamp, and author; store posts in the Motoko backend and display them in the frontend.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/lib/imageValidation.ts",
+        "frontend/src/pages/ComposePostPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-home-feed-ui-that-lists-posts-image-author-caption-time-and-supports-pagination-or-incremental-loading",
+      "featureTitle": "Build a home feed UI that lists posts (image, author, caption, time) and supports pagination or incremental loading.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/posts/PostCard.tsx",
+        "frontend/src/pages/FeedPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-social-interactions-like-unlike-posts-and-add-delete-comments-by-comment-author",
+      "featureTitle": "Implement social interactions: like/unlike posts and add/delete comments (by comment author).",
+      "files": [
+        "frontend/src/components/comments/CommentsPanel.tsx",
+        "frontend/src/components/posts/LikeButton.tsx",
+        "frontend/src/components/posts/PostCard.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-following-users-can-follow-unfollow-other-users-profile-pages-show-follower-following-counts-feed-can-be-filtered-to-show-posts-from-followed-accounts",
+      "featureTitle": "Implement following: users can follow/unfollow other users; profile pages show follower/following counts; feed can be filtered to show posts from followed accounts.",
+      "files": [
+        "frontend/src/components/profile/FollowButton.tsx",
+        "frontend/src/pages/FeedPage.tsx",
+        "frontend/src/pages/ProfilePage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-basic-discovery-ui-a-simple-user-search-by-display-name-and-navigation-to-user-profiles",
+      "featureTitle": "Add basic discovery UI: a simple user search (by display name) and navigation to user profiles.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/search/SearchResultRow.tsx",
+        "frontend/src/pages/SearchPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-coherent-visual-theme-for-the-app-colors-typography-layout-and-apply-it-consistently-across-feed-profile-post-composer-and-search-screens-do-not-use-blue-purple-as-primary-palette",
+      "featureTitle": "Create a coherent visual theme for the app (colors, typography, layout) and apply it consistently across feed, profile, post composer, and search screens (do not use blue/purple as primary palette).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-required-static-images-logo-default-avatar-and-an-empty-state-illustration-and-render-them-from-frontend-static-assets",
+      "featureTitle": "Generate and include required static images (logo, default avatar, and an empty-state illustration) and render them from frontend static assets.",
+      "files": [
+        "frontend/src/components/branding/Logo.tsx",
+        "frontend/src/components/profile/Avatar.tsx",
+        "frontend/src/pages/FeedPage.tsx",
+        "frontend/src/pages/SearchPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

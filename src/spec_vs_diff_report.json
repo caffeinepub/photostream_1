@@ -1,0 +1,120 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-18T05:01:43.386Z",
+  "summary": "The diff adds substantial frontend scaffolding (routing, layout, theme, auth hook usage) and implements core post rendering, likes, comments UI, image validation, and a following-only feed toggle. However, several BuildRequest requirements are either not evidenced in the diff (e.g., search page behavior, pagination, profile counts/relationship state, auto profile creation) or only partially implemented. There are also signs of unrequested/possibly non-compliant additions (use of a blob-storage mixin and a branded footer link).",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "On first sign-in, a minimal profile is created automatically (or via a one-time onboarding screen).",
+      "reason": "The diff shows a manual Edit Profile page calling createProfile, but no evidence of automatic profile creation on login/first sign-in or an onboarding flow.",
+      "evidence": [
+        "frontend/src/pages/EditProfilePage.tsx",
+        "frontend/src/hooks/useInternetIdentity.ts (truncated)",
+        "frontend/src/hooks/useQueries.ts (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Users can view another user's profile page showing avatar, display name, bio, and counts (posts, followers, following).",
+      "reason": "Routes include /u/$principal, but the diff does not include ProfilePage implementation or any evidence of follower/following/post counts rendering.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Store posts in the Motoko backend and display them in the frontend with required fields (postId, author principal, caption, createdAt/timestamp, image reference).",
+      "reason": "Backend post type includes required fields, and frontend displays posts, but backend file is truncated and does not show read APIs (e.g., getFeed/getPostsByUser) implementation details; frontend calls these methods without evidence they exist in backend in the provided diff excerpt.",
+      "evidence": [
+        "backend/main.mo (truncated)",
+        "frontend/src/hooks/useQueries.ts (truncated)",
+        "frontend/src/pages/FeedPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Feed supports pagination or incremental loading without duplicating posts.",
+      "reason": "FeedPage uses a single query returning PostView[] and renders all posts; no pagination/infinite loading mechanism is shown (no cursor/page params, no 'Load more', no infinite query).",
+      "evidence": [
+        "frontend/src/pages/FeedPage.tsx",
+        "frontend/src/hooks/useQueries.ts (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "On another user’s profile, a follow/unfollow button reflects current relationship state; users can follow/unfollow; counts update after follow/unfollow.",
+      "reason": "FollowButton only renders a 'Follow' action and never switches to 'Unfollow' or reflects relationship state. There is no evidence of relationship query/state, nor follower/following counts UI updates. Backend follow/unfollow logic is truncated.",
+      "evidence": [
+        "frontend/src/components/profile/FollowButton.tsx",
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Discovery UI: user search (by display name) with loading and empty-result states; selecting navigates to profile.",
+      "reason": "A Search route exists and a SearchResultRow component exists, but the SearchPage implementation and its loading/empty states and actual search query wiring are not shown in the diff summary.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/search/SearchResultRow.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Generated static images are placed under frontend/public/assets/generated (logo, default avatar, empty-state illustration).",
+      "reason": "UI references the expected asset paths, but the diff summary does not show the actual image files being added under frontend/public/assets/generated (they may be among omitted files, but there is no evidence in the visible diff).",
+      "evidence": [
+        "frontend/src/components/branding/Logo.tsx",
+        "frontend/src/components/profile/Avatar.tsx",
+        "frontend/src/pages/FeedPage.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Use of a blob-storage mixin/imports in the backend (ExternalBlob, MixinStorage) which may imply additional storage service beyond a single Motoko actor.",
+      "reason": "BuildRequest constrains the backend to remain a single Motoko actor and not rely on external object storage/CDNs; the diff introduces `blob-storage/Storage` and `blob-storage/Mixin` without being requested and may violate constraints depending on what blob-storage resolves to.",
+      "evidence": [
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "description": "Branded footer content and external link to caffeine.ai.",
+      "reason": "Not requested by any requirement; adds external branding/link unrelated to specified features.",
+      "evidence": [
+        "frontend/src/components/layout/AppLayout.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/RequireAuth.tsx",
+    "frontend/src/components/branding/Logo.tsx",
+    "frontend/src/components/comments/CommentsPanel.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/components/posts/LikeButton.tsx",
+    "frontend/src/components/posts/PostCard.tsx",
+    "frontend/src/components/profile/Avatar.tsx",
+    "frontend/src/components/profile/FollowButton.tsx",
+    "frontend/src/components/search/SearchResultRow.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/imageValidation.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/ComposePostPage.tsx",
+    "frontend/src/pages/EditProfilePage.tsx",
+    "frontend/src/pages/FeedPage.tsx",
+    "frontend/src/pages/ProfilePage.tsx",
+    "frontend/src/pages/SearchPage.tsx",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

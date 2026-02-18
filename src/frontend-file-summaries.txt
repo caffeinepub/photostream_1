@@ -1,0 +1,21 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, defining all routes (feed, profile, search, compose, edit) and wrapping the app with ThemeProvider and Toaster for notifications.",
+  "frontend/src/hooks/useQueries.ts": "Centralized React Query hooks for all backend operations including profiles, posts, likes, comments, follows, and search with proper cache invalidation.",
+  "frontend/src/components/layout/AppLayout.tsx": "Main layout component with sticky header navigation, logo, action buttons (home, search, compose, profile), authentication controls, and footer with attribution.",
+  "frontend/src/components/branding/Logo.tsx": "Simple logo component that renders the generated app logo image from static assets.",
+  "frontend/src/components/profile/Avatar.tsx": "Reusable avatar component with size variants that displays user avatars via ExternalBlob direct URL or falls back to the default avatar asset.",
+  "frontend/src/components/auth/RequireAuth.tsx": "Authentication guard component that prompts users to sign in when accessing protected features while allowing read-only browsing.",
+  "frontend/src/pages/FeedPage.tsx": "Home feed page displaying posts in chronological order with toggle between \"All\" and \"Following\" modes, loading states, and empty state illustration.",
+  "frontend/src/pages/ProfilePage.tsx": "User profile page showing avatar, display name, bio, post count, follow button (for other users), edit button (for own profile), and user's posts.",
+  "frontend/src/pages/EditProfilePage.tsx": "Profile editing page with form for display name, bio, and avatar upload with image preview and validation.",
+  "frontend/src/pages/ComposePostPage.tsx": "Post creation page with image upload, preview, caption input, upload progress tracking, and validation.",
+  "frontend/src/pages/SearchPage.tsx": "User search page with search input, real-time results display, loading states, and empty state handling.",
+  "frontend/src/components/search/SearchResultRow.tsx": "Search result item component displaying user avatar, display name, and bio with type-safe navigation to profile using params.",
+  "frontend/src/components/posts/PostCard.tsx": "Main post display component showing author info, image, caption, timestamp, like button, and comments panel with type-safe routing using params.",
+  "frontend/src/components/posts/LikeButton.tsx": "Interactive like button showing like count and filled heart state, prompting sign-in for unauthenticated users.",
+  "frontend/src/components/comments/CommentsPanel.tsx": "Comments section with comment list, add comment form, delete functionality for own comments, and authentication prompts using type-safe routing.",
+  "frontend/src/components/profile/FollowButton.tsx": "Follow/unfollow button for user profiles with loading states and authentication checks.",
+  "frontend/src/lib/imageValidation.ts": "Client-side image validation utility enforcing file type (JPEG, PNG, WebP) and size (max 10MB) constraints.",
+  "frontend/src/index.css": "Global styles with warm coral/peach OKLCH color palette for light and dark modes, avoiding blue/purple tones.",
+  "frontend/tailwind.config.js": "Tailwind configuration with custom color tokens, Inter font family, extended spacing, and custom shadows for a polished design."
+}
